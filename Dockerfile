@@ -1,10 +1,10 @@
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install Nginx, PHP-FPM and MySQL extension
 RUN apt-get update && \
-    apt-get install -y nginx php7.4-fpm php7.4-mysql curl && \
+    apt-get install -y nginx php8.3-fpm php8.3-mysql curl && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Create Nginx site config to pass PHP to php-fpm
@@ -21,7 +21,7 @@ server {
 
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+        fastcgi_pass unix:/run/php/php8.3-fpm.sock;
     }
 
     location ~ /\.ht {
@@ -36,4 +36,4 @@ WORKDIR /var/www/html
 EXPOSE 80
 
 # Start PHP-FPM and Nginx
-CMD service php7.4-fpm start && nginx -g 'daemon off;'
+CMD service php8.3-fpm start && nginx -g 'daemon off;'
